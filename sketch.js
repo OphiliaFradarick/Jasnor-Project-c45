@@ -1,6 +1,6 @@
 var plane,plane_Img;
 var planeCrashed,planeCrashed_Img,bg_Image,bg,startStateBg,Island_Img,bg_infinite;
-var player_standing1_img,player_running_img,player;
+var player_standing1_img,player_running_img,player,poisonApple_img;
 var game_state = "start"
 
 
@@ -15,7 +15,7 @@ function preload(){
   Island_Img = loadImage("Imgs/Island.jpg");
   player_running_img = loadAnimation("Imgs/player_running1.png","Imgs/player_running2.png");
   player_standing1_img = loadImage("Imgs/player_standing.png");
-
+  poisonApple_img = loadImage("Imgs/poision_fruit.png");
 }
 
 function setup(){
@@ -25,7 +25,7 @@ function setup(){
 
   bg_infinite = createSprite(windowWidth/2,windowHeight/2,windowWidth,windowHeight);
   bg_infinite.addImage(Island_Img);
-  bg_infinite.scale = 3.3;
+  bg_infinite.scale = 4.5;
   bg_infinite.velocityX = -3;
   bg_infinite.visible = false;
 
@@ -74,13 +74,20 @@ function draw(){
       bg_infinite.x = windowWidth/2-200;
     }
 
-    player = createSprite(760,600);
+    player = createSprite(760,870);
     player.addImage("player",player_standing1_img);
-    player.scale = 2;
+    player.scale = 3;
 
-    
-    
-    
+    //player movement
+    if(keyDown("left_arrow")){
+      player.x -= 4;
+    }
+
+    if(keyDown("right_arrow")){
+      player.x += 4;
+    }
+  
+    spawnObstacles();
   }
 
   drawSprites();
@@ -91,3 +98,12 @@ function draw(){
 
 }
 
+//obstacles
+function spawnObstacles(){
+  if(frameCount % 60 === 0){
+    var poisonApples = createSprite(random(100, windowWidth-100), 0);
+    poisonApples.addImage("obstacles",poisonApple_img);
+    poisonApples.velocityY = 10;
+    poisonApples.scale = 0.2;
+  }
+}
